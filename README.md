@@ -9,14 +9,19 @@ Sanka is a general purpose programming language. It is compiled,
 strongly typed, and imperative. Its philosophy is defined as much by
 what it rejects then by what it provides. The tenets are:
 
+_[jv] this may not be important, but none of these are really clear; examples could help_
+
 * What appears to be true at compile-time should remain true at run-time.
+  * _[jv] what appears true at compile-time in Java that fails to remain true at run time?_
 * Variables should have well-defined types.
 * Types should have well-defined fields.
 * Function calls should be explicit.
+  * _[jv] apart from toString(), where are implicit function calls made?_
 * Language constructs (function calls, etc.) should be lightweight.
   The language should not be a barrier to efficient code.
 * Imperative programming is nice, and functional programming is nice, but
   a language should not try to be both.
+  * _[jv] and therefore, what has Sanka chosen?_
 
 ## Advocacy
 
@@ -28,6 +33,8 @@ perfectly fine. I'm not going to tell you that mine is better, or that
 you should use mine instead of anything else. I simply like this
 language. The syntax and the details and the philosophy all work for
 me. If you like it too, that's great. If not, that's fine too.
+
+_[jv] if you like writing this, that's great.  if you think it serves no purpose and should be removed, that's fine too_
 
 ## Syntax
 
@@ -51,6 +58,8 @@ Sanka has the following things in common with Java:
 * The numeric types are byte, short, int, long, float, double.
 * The language provides garbage collection.
 * Fields can be public or private, and classes can be public or private.
+  * _[jv] Java doesn't have private top level classes, as they would make no sense;
+    does Sanka have inner classes?_
 * Many keywords work as they do in Java, such as `if`, `for`, `while`,
   `break`, `continue`, `case`.
 * Objects and arrays are mutable.
@@ -60,6 +69,9 @@ Here are the Java constructs that Sanka does not provide:
 * Sanka classes are either abstract or final. Either a class is abstract
   and it can be subclassed (but not instantiated), or it is concrete and it
   can be instantiated (but not subclassed).
+_[jv] You kind of avoid the question of whether or not Sanka is object oriented;
+   I would say it's not.  And I'd say so, explicitly, as a high level point._
+* Sanka does not provide class inheritance or subclasses or abstract classes.
 * Classes are a compile-time abstraction. They basically don't exist at
   runtime. I can declare variables of type `Foo`, but there is no `Foo.class`
   object accessable at runtime.
@@ -71,6 +83,8 @@ Here are the Java constructs that Sanka does not provide:
 * There are no base methods like wait(), notify(), hashCode(), etc. Types
   only have the methods that you define.
 * Generic objects cannot be used as synchronization monitors.
+_[jv] does it run on a VM, or compile to machine code?_
+
 * There are no `static {}` blocks.
 * There is no implicit reference to instance variables. To access the `foo`
   field, explicitly write `this.foo`.
@@ -134,6 +148,8 @@ non-inline structure or array), and then you try to access the
 variable after you have left its stack frame, then the program
 dies. The drawback is considerable.
 
+_[jv] but if you provide a getter to that inline field, a reference still escapes, right?_
+
 Similarly --
 
 When you define a class, you can define "inline" fields. In other
@@ -153,6 +169,7 @@ And finally, you can also inline objects in an array, just like you
 can inline objects in a class. For a full discussion of the `inline`
 keyword -- the syntax, the limitations, etc. -- see
 [docs/Inline.md](docs/Inline.md).
+
 
 **export keyword**
 
@@ -206,6 +223,9 @@ variable, where the RHS is any value or expression other then `null`,
 the compiler evaluates the type of the RHS, and that is the type of
 `x`.  Then, it is a compile error for `x` to be used as any other
 type.
+
+_[jv] I might say "expose" rather than "export".  And I'd prefer it to
+  **only** be done on methods, rather than ever on the whole class_
 
 ## Open Questions
 

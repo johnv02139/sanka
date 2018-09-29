@@ -22,9 +22,13 @@ expression.
 There are four integral types: `byte`, `short`, `int`, and `long`.
 They are signed types of 8, 16, 32, and 64 bits, respectively.
 
+_[jv] no unsigned types?_
+
 The arithmetic operators are the four obvious ones: `+`, `-`, `*`,
 `/`. And also remainder `%` and the three bitwise operators `<<`,
 `>>`, `~`.
+
+_[jv] what about bitwise and, or, and xor?_
 
 `byte` and `short` are not useful for arithmetic. These values are
 automatically promoted to `int` when they are used in an arithmetic
@@ -85,6 +89,10 @@ is equivalent to this statement:
     var v = (byte) 65;
 ~~~
 
+_[jv] byte?  It's one thing to not have Unicode support yet, but this seems
+   like you're making an explicit choice to never have it_
+
+
 ## Class Types
 
 Sanka has three builtin non-scalar types. All three of these blur the
@@ -117,13 +125,24 @@ bytes:
     var s = new String(arr);
 ~~~
 
+_[jv] "array" hasn't been defined yet, though; maybe swap the sections_
+
 An application may choose to interpret these bytes as UTF-8,
 unicode, etc., but this support is not built into the language.
+
+_[jv] Seems unfortunate.  Also, even for bytes, normally you'd want them to
+  be unsigned bytes.  If you're saying programs can try to interpret them
+  as other things, but their values go from 0 to 127 to -255 to -128, it's hard
+  to see them as useful values beyond 127_
+
+_[jv] what about accessing "characters"?  Just use normal array access?_
 
 Since `String` is builtin to the language, it supports the comparison
 operators `==`, `<`, `>`, etc. These work by doing a byte-by-byte
 comparison between two Strings. The bytes have no particular meaning
 as characters or letters. They are compared as integers.
+
+_[jv] Ah, but there is no byte 132!_
 
 If `s1` and `s2` are the same sequence of bytes, then `s1 == s2`.
 
@@ -196,6 +215,11 @@ further memory has been allocated. After the call to add(), it is the
 four element array `{0, 0, 0, 17}`. And there may be a little extra
 memory at the end of the array, so that the next call to add() can
 be processed efficiently.
+
+_[jv] I wonder how that works.  If two methods have a reference to the same
+  array, and one of them resizes it, what happens?  And, does the length
+  field automatically return a different value?  I guess I can just look
+  at the source code..._
 
 Of course, the arithmetic operators and the comparison operators are
 meaningless on arrays, just as they are on user-defined classes.
@@ -308,6 +332,10 @@ single contiguous block of memory. Instead, create an array of arrays.
     matrix[1] = new int[7];
     matrix[2] = new int[7];
 ~~~
+
+_[jv] So, the bottom right corner of this matrix is matrix[2][6]?
+  Even though when we set the "3" index, it was in the second set of
+  brackets?_
 
 The first line reads as: "matrix is an array with three elements where
 each element has type `int[]`."
